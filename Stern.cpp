@@ -254,7 +254,7 @@ int subset (vector<int> &res, set<int> &X , size_t sz,unsigned int p, unsigned i
 void H1_gen(mtl::multi_vector<Vector> &H, multimap <vector<int>, Vector> &list,  vector<int> &res, 
             unsigned int p, unsigned int l, int count)
 {
-	//H1-submatrix from selected raws and columns
+	//H1-submatrix from selected rows and columns
 	mtl::multi_vector<Vector>  H1(l, p);
     Vector pi(l,0);
 	H1=0;
@@ -273,7 +273,7 @@ void H1_gen(mtl::multi_vector<Vector> &H, multimap <vector<int>, Vector> &list, 
 		while (c.count(t)==0); 
 		c.erase(t); c1.insert(t);
 	}
-	cout<<"raws:  ";
+	cout<<"rows:  ";
 	copy(c1.begin(),c1.end(),ostream_iterator<int>(cout, " "));
 	cout<<endl;
 	set <int> :: iterator it=c1.begin(); int e=0;

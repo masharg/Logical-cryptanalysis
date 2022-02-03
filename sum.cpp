@@ -8,9 +8,14 @@ using namespace std;
 
 	using namespace mtl;
 
+//parameters of system
 const int  n=10;
 const int  k=5;
 
+/* 
+* In Hx = y equation vector x has weight t, where t - parameter;
+* Conversion to CNF equation: x1 + x2 +...+ xn = t, using summator
+*/
 
 int sum (int *x, int* y, int *s, int it, int k, int &first)
 {
@@ -77,8 +82,8 @@ int main()
 	int weight=5;
 	vector<int*> list;
 	bool alone =false;
-	int count=0,i=0,pos=0;
-	int it=1,first=17;
+	int count=0, i=0, pos=0;
+	int it=1, first=17;
 	ofstream f("res1", ios::app);
     int num=n/2;
     while (num>=1)

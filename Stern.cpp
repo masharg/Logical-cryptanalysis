@@ -5,8 +5,9 @@
 #include <set>
 #include <map>
 #include <iterator>
-
 #include <boost/numeric/mtl/mtl.hpp>
+
+/*Implementation of Stern algorithm */
 
 using namespace std;
 
@@ -21,7 +22,7 @@ typedef dense_vector<int>  Vector;
 
 bool lnz_column(mtl::multi_vector<Vector> &A, Vector &b, int j)
 {
-	//check columns 
+	//check columns for linear independance
 	bool l=true;
 	Vector v(k,1);
 	v=0;
@@ -70,7 +71,7 @@ bool lnz_column(mtl::multi_vector<Vector> &A, Vector &b, int j)
 
 void set_12 (set<int> &X, set<int> &Y,set<int> &Z)
 {
-	//set x and y create
+	//set X and Y creation
 	set<int> c;
 	int t;
 	srand(time(0));
@@ -162,7 +163,7 @@ void identity(mtl::multi_vector<Vector> &H, set<int> &Z)
 
 void choose_column (mtl::multi_vector<Vector> &H,set<int> &Z)
 {
-	//set z create
+	//set Z creation: randomly choose columns
 	set<int> c;
 	int t;
     bool b;
@@ -303,7 +304,7 @@ void H1_gen(mtl::multi_vector<Vector> &H, multimap <vector<int>, Vector> &list, 
 
 unsigned int weight_v ( Vector &v)
 {
-	//weight of the vector
+	//computes weight of the vector
 	unsigned int t=0;
 	for(unsigned int i=0; i<n-k; i++)
 		if(v[i]==1)
@@ -311,7 +312,7 @@ unsigned int weight_v ( Vector &v)
 	return t;
 }
 	
-
+//common vectors pi(A) = pi (B)
 void collision(multimap <vector<int>, Vector> &list1, multimap <vector<int>, Vector> &list2, mtl::multi_vector<Vector> &H, 
 set<int> &Z, Vector &v, unsigned int p)
 {
@@ -367,6 +368,7 @@ set<int> &Z, Vector &v, unsigned int p)
 	}
 }
 
+//main algorithm
 void low_weight (mtl::multi_vector<Vector> &H, Vector &x,unsigned  int p,unsigned  int l)
 {
 	
@@ -380,8 +382,10 @@ void low_weight (mtl::multi_vector<Vector> &H, Vector &x,unsigned  int p,unsigne
     multimap <vector<int>, Vector > list2;
     try
     {
-		choose_column(H_n,Z);
+		// chosing sets Z,X,Y
+	        choose_column(H_n,Z);
 		set_12(X,Y,Z);
+	    
 		size_t sz1=X.size(), sz2=Y.size();
 		if (sz1<p || sz2 < p)
 			throw "bad column choice \n";
@@ -402,6 +406,7 @@ int main()
 	Vector v (n,0);
     mtl::multi_vector<Vector>  H(k, n);
     srand(time(0));
+	// generates random matrix
     for( int i=0; i<n; i++)
 		for( int j=0; j<k; j++)
 			H.vector(i)[j]=rand() % 2;

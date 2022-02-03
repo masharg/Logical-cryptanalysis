@@ -9,10 +9,15 @@ using namespace std;
 
 	using namespace mtl;
 
+/* 
+* Conversion of Hx = y equation to conjunctive normal form, where H - matrix; x, y - vectors 
+*/
+
 const int  n=150;
 const int  k=75;
 typedef dense_vector<int>   Vector;
 
+//computes matrix by cyclic shift given its first row
 void matr_gen(dense2D<int> &H)
 {
 	int t=0,r=n/2;
@@ -46,14 +51,20 @@ void matr_gen(dense2D<int> &H)
 	}
 }
 
+// Conversion of Hx = y equation to CNF
+
 int syst(dense2D<int> &H, Vector &y, int l, int k, int first)
 {
 	Vector x (n);
+	//main variables
 	int *a= new int[n+3];
+	//additional variables
 	int *z= new int[n/2+1];
 	int j=3;
 	stringstream conv;
 	string s1,s2,s3;
+	
+	//assigning numbers to variables
 	for (int i=0; i<n+2; i++)
 	{
 		a[i]=i+1;
@@ -69,6 +80,7 @@ int syst(dense2D<int> &H, Vector &y, int l, int k, int first)
 	stringstream s;
 	string row;
 	
+	//converts equation to CNF and deletes terms = 0
 	conv<<a[0]; s1=conv.str(); conv.str("");
 	conv<<a[1]; s2=conv.str(); conv.str("");
 	conv<<a[2]; s3=conv.str(); conv.str(""); 
@@ -175,6 +187,9 @@ int syst(dense2D<int> &H, Vector &y, int l, int k, int first)
     delete [] a; delete [] z;
     return k;
 }
+
+//generates matrix; generates random vector y and prints result into file; Measures program time 
+
 int main()
 {
 	double start_time =  clock();
